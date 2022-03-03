@@ -25,6 +25,6 @@ void pop_from_stack(Stack *stake) {
     stake->elems = (int *) realloc(stake->elems, stake->length * sizeof(int));
 }
 
-int get_head(Stack *stake) {
-    return ((stake->length == 0) ? -1 : stake->elems[stake->length - 1]);
+const int* get_head(Stack *stake) {
+    return ((stake->length == 0) ? NULL : &stake->elems[stake->length - 1]);
 }
