@@ -11,6 +11,8 @@ char *get_string_from_input() {
 
 /* How to Can */
 
+//cococ
+
 int main() {
     char *input_str = get_string_from_input();
     printf("String: %s\n", input_str);
