@@ -9,7 +9,7 @@ char *get_string_from_input() {
     return input_str;
 }
 
-
+/* How to Can */
 
 int main() {
     char *input_str = get_string_from_input();
