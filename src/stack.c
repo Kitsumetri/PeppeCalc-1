@@ -14,6 +14,7 @@ void push_to_stack(Stack *stake, int new_value) {
     for (int i = 0; i < stake->length - 1; i++)
         temp[i] = stake->elems[i];
     temp[stake->length - 1] = new_value;
+    free(stake->elems);
     stake->elems = temp;
 }
 
