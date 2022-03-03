@@ -1,0 +1,3 @@
+/home/grafvontee/CLionProjects/Calc-Peplin/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/grafvontee/CLionProjects/Calc-Peplin/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/grafvontee/CLionProjects/Calc-Peplin/cmake-build-debug/CMakeFiles/Calc.dir
