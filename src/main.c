@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "operations.h"
 
 const int LIMIT_SIZE = 1000;
 
@@ -9,10 +10,8 @@ char *get_string_from_input() {
     return input_str;
 }
 
-//idk
-
 int main() {
     char *input_str = get_string_from_input();
-    printf("String: %s\n", input_str);
+    printf("Output: %2.2Lf\n", calculate_result_with_rpn(input_str));
     return 0;
 }
