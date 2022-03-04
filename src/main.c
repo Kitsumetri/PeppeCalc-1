@@ -3,6 +3,6 @@
 
 int main()
 {
-    printf("%s\n", get_new_str());
+    printf("%s\n", get_RPN_from_str());
     return 0;
 }

@@ -1,4 +1,6 @@
 #include "get_str.h"
+#include "operations.h"
+#include "stack.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +12,6 @@ char *get_string_from_input() {
     fgets(input_str, LIMIT_SIZE, stdin);
     return input_str;
 }
-
 
 char *get_new_str() {
     const char keys[] = "()+-*^/";
@@ -27,4 +28,32 @@ char *get_new_str() {
     }
     free(input_str);
     return new_str;
+}
+
+void operations(char *token, Stack *stack)
+{
+    OPERATIONS oper = get_operation_from_string(token);
+    push_to_stack(stack, oper);
+}
+
+char *get_RPN_from_str()
+{
+    char *expression = get_new_str();
+    char *token = strtok(expression, " \n");
+
+    Stack stake = make_stack();
+    char *str_rpn = (char*) calloc(LIMIT_SIZE, sizeof(char));
+
+    while (token != NULL)
+    {
+        if (check_string_is_digit(token))
+            strcat(str_rpn, token);
+        else
+        {
+            operations(token, &stake);
+        }
+        token = strtok(NULL, " \n");
+    }
+    free(expression);
+    return str_rpn;
 }
