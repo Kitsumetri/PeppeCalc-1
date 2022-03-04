@@ -25,5 +25,6 @@ char *get_new_str() {
             new_str[j++] = ' ';
         i++;
     }
+    free(input_str);
     return new_str;
 }
