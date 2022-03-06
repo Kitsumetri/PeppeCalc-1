@@ -19,6 +19,6 @@ typedef enum {
 } OPERATIONS;
 
 OPERATIONS get_operation_from_string(char *str);
-long double calculate_result_with_rpn(char *str);
+stack_type calculate_result_with_rpn(const char *orig_str);
 
 bool check_string_is_digit(char *str);

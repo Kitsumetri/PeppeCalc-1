@@ -9,13 +9,13 @@
 #define eq(str, op) (strcmp(str, op) == 0)
 
 #ifdef STACK_TYPE_IS_LONG_DOUBLE
-    #define strtost(op, ptr) strtod(op, ptr)
-    #define sin(x) sinl(x)
-    #define cos(x) cosl(x)
-    #define log(x) logl(x)
-    #define sqrt(x) sqrtl(x)
+#define strtost(op, ptr) strtod(op, ptr)
+#define sin(x) sinl(x)
+#define cos(x) cosl(x)
+#define log(x) logl(x)
+#define sqrt(x) sqrtl(x)
 #elif STACK_TYPE_IS_INT
-    #define strtost(op, str) strtol(op, ptr)
+#define strtost(op, str) strtol(op, ptr)
 #endif
 
 OPERATIONS get_operation_from_string(char *str) {
@@ -118,7 +118,10 @@ void do_operation(char *token, Stack *stake) {
     }
 }
 
-stack_type calculate_result_with_rpn(char *str) {
+stack_type calculate_result_with_rpn(const char *orig_str) {
+    char *str = (char*) calloc(strlen(orig_str), sizeof(char));
+    strncpy(str, orig_str, strlen(orig_str));
+
     Stack stake = make_stack();
     char *end_ptr = NULL;
     char *token = strtok(str, " ,\n");
@@ -129,5 +132,6 @@ stack_type calculate_result_with_rpn(char *str) {
             do_operation(token, &stake);
         token = strtok(NULL, " ,\n");
     }
+    free(str);
     return *get_head(&stake);
 }
