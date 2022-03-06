@@ -18,17 +18,20 @@ char *get_new_str() {
     char *input_str = get_string_from_input();
     char *new_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
     int i = 0; int j = 0;
-
+    bool unar_minus;
     while (i < strlen(input_str))
     {
+        unar_minus = false;
         new_str[j++] = input_str[i];
-        /*
-        if ((input_str[i] == '-') && ((i == 0)));
-        else if ((input_str[i] == '-') && strchr(keys, input_str[i-1]));
-        else if ((input_str[i] == '-') && (input_str[i-1] == 0) && strchr(keys, input_str[i-2]));
-        else */
+        if (input_str[i] == '-')
+            if ((i == 0)
+            || (strchr(keys, input_str[i-1]))
+            || ((input_str[i-1] == ' ') && strchr(keys, input_str[i-2])))
+                unar_minus = true;
+
         if (strchr(keys,input_str[i+1]) || strchr(keys,input_str[i]))
-            new_str[j++] = ' ';
+            if (!unar_minus)
+                new_str[j++] = ' ';
         i++;
     }
     free(input_str);
