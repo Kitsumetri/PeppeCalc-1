@@ -112,7 +112,7 @@ void print_operations(stack_type oper, char *str, Stack *stack)
 int priority(int oper)
 {
     if (oper == O_BRACKET || oper == C_BRACKET)
-        return 0;
+        return 4;
     if (oper == SUM || oper == SUBSTRACT)
         return 1;
     if (oper == MULTIPLY || oper == DIVISION || oper == SIN || oper == COS || oper == LOG || oper == SQRT)
@@ -143,7 +143,7 @@ char *get_RPN_from_str()
 
             if (oper != C_BRACKET)
             {
-                if (stake.length == 0)
+                if (stake.length== 0)
                     push_to_stack(&stake, oper);
                 else
                 {
@@ -155,7 +155,7 @@ char *get_RPN_from_str()
                         push_to_stack(&stake, (int)oper);
                     }
                     else
-                        print_operations(previous, str_rpn, &stake);
+                        push_to_stack(&stake, (int)oper);
                 }
             }
             else
