@@ -1,18 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "get_str.h"
+#include "operations.h"
 
-const int LIMIT_SIZE = 1000;
-
-char *get_string_from_input() {
-    char *input_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
-    fgets(input_str, LIMIT_SIZE, stdin);
-    return input_str;
-}
-
-/* How to Can */
-
-int main() {
-    char *input_str = get_string_from_input();
-    printf("String: %s\n", input_str);
+int main()
+{
+    char *rpn_string = get_RPN_from_str();
+    printf("RPN Expression: %s\n", rpn_string);
+    long double answer = calculate_result_with_rpn(rpn_string);
+    printf("Answer: %2.4Lf", answer);
     return 0;
 }
