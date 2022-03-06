@@ -1,5 +1,6 @@
 #include "stack.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Stack make_stack() {
     Stack new_stack;
@@ -25,6 +26,8 @@ void pop_from_stack(Stack *stake) {
     stake->elems = (stack_type *) realloc(stake->elems, stake->length * sizeof(stack_type));
 }
 
-const stack_type * get_head(Stack *stake) {
+stack_type *get_head(Stack *stake) {
     return ((stake->length == 0) ? NULL : &stake->elems[stake->length - 1]);
 }
+
+

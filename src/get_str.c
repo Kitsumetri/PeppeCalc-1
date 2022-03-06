@@ -30,10 +30,96 @@ char *get_new_str() {
     return new_str;
 }
 
-void operations(char *token, Stack *stack)
+void print_operations(stack_type oper, char *str, Stack *stack)
 {
-    OPERATIONS oper = get_operation_from_string(token);
-    push_to_stack(stack, oper);
+    int a = (int)oper;
+    switch (a)
+    {
+        case O_BRACKET:
+        case C_BRACKET:
+        {
+            pop_from_stack(stack);
+        }
+            break;
+        case SUM:
+        {
+            strcat(str, "+");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case SUBSTRACT:
+        {
+            strcat(str, "-");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case MULTIPLY:
+        {
+            strcat(str, "*");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case DIVISION:
+        {
+            strcat(str, "/");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case POWER:
+        {
+            strcat(str, "^");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case SIN:
+        {
+            strcat(str, "sin");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case COS:
+        {
+            strcat(str, "cos");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case LOG:
+        {
+            strcat(str, "log");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        case SQRT:
+        {
+            strcat(str, "sqrt");
+            pop_from_stack(stack);
+            strcat(str, " ");
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+int priority(int oper)
+{
+    if (oper == O_BRACKET || oper == C_BRACKET)
+        return 0;
+    if (oper == SUM || oper == SUBSTRACT)
+        return 1;
+    if (oper == MULTIPLY || oper == DIVISION || oper == SIN || oper == COS || oper == LOG || oper == SQRT)
+        return 2;
+    if (oper == POWER)
+        return 3;
+    return 0;
 }
 
 char *get_RPN_from_str()
@@ -47,13 +133,44 @@ char *get_RPN_from_str()
     while (token != NULL)
     {
         if (check_string_is_digit(token))
+        {
             strcat(str_rpn, token);
+            strcat(str_rpn, " ");
+        }
         else
         {
-            operations(token, &stake);
+            OPERATIONS oper = get_operation_from_string(token);
+
+            if (oper != C_BRACKET)
+            {
+                if (stake.length == 0)
+                    push_to_stack(&stake, oper);
+                else
+                {
+                    int previous = (int) *get_head(&stake);
+
+                    if (priority(previous) >= priority((int)oper))
+                    {
+                        print_operations(previous, str_rpn, &stake);
+                        push_to_stack(&stake, (int)oper);
+                    }
+                    else
+                        print_operations(previous, str_rpn, &stake);
+                }
+            }
+            else
+            {
+                while (get_head(&stake) != O_BRACKET && stake.length >= 0)
+                    print_operations(*get_head(&stake), str_rpn, &stake);
+                pop_from_stack(&stake);
+            }
         }
         token = strtok(NULL, " \n");
     }
+
+    while (stake.length != 0)
+        print_operations(*get_head(&stake), str_rpn, &stake);
+
     free(expression);
     return str_rpn;
 }
