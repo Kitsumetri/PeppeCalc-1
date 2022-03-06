@@ -10,7 +10,7 @@ The First Project from Fedor Peplin's Tasks Trajectory
 ![image](https://user-images.githubusercontent.com/47254952/156927424-b7d49683-9518-46c4-81dc-6c9fc4e9a661.png)
 
 Список возможностей:
-1. +, -, /, *, ^, ()
+1. +, -, /, *, ^ (только для нат. чисел), ()
 2. sin, cos, log, sqrt
 3. отрицательные числа
 4. числа с плавающей запятой
