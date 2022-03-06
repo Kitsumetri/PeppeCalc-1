@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -14,6 +13,7 @@
     #define sin(x) sinl(x)
     #define cos(x) cosl(x)
     #define log(x) logl(x)
+    #define sqrt(x) sqrtl(x)
 #elif STACK_TYPE_IS_INT
     #define strtost(op, str) strtol(op, ptr)
 #endif
@@ -39,6 +39,8 @@ OPERATIONS get_operation_from_string(char *str) {
         return COS;
     if eq(str, "log")
         return LOG;
+    if eq(str, "sqrt")
+        return SQRT;
     return ERROR;
 }
 
@@ -50,6 +52,8 @@ stack_type apply_operation1(OPERATIONS oper, stack_type v) {
             return cos(v);
         case LOG:
             return log(v);
+        case SQRT:
+            return sqrt(v);
         default:
             return 0;
     }
@@ -103,6 +107,7 @@ void do_operation(char *token, Stack *stake) {
         case SIN:
         case COS:
         case LOG:
+        case SQRT:
             value_1 = *get_head(stake);
             pop_from_stack(stake);
             push_to_stack(stake, apply_operation1(oper, value_1));
