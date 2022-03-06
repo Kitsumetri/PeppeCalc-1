@@ -22,6 +22,11 @@ char *get_new_str() {
     while (i < strlen(input_str))
     {
         new_str[j++] = input_str[i];
+        /*
+        if ((input_str[i] == '-') && ((i == 0)));
+        else if ((input_str[i] == '-') && strchr(keys, input_str[i-1]));
+        else if ((input_str[i] == '-') && (input_str[i-1] == 0) && strchr(keys, input_str[i-2]));
+        else */
         if (strchr(keys,input_str[i+1]) || strchr(keys,input_str[i]))
             new_str[j++] = ' ';
         i++;
@@ -30,96 +35,73 @@ char *get_new_str() {
     return new_str;
 }
 
+void pop_operation_to_string(char *oper, char *str, Stack *stack) {
+    strcat(str, oper);
+    pop_from_stack(stack);
+    strcat(str, " ");
+}
+
 void print_operations(stack_type oper, char *str, Stack *stack)
 {
-    int a = (int)oper;
-    switch (a)
+    switch ((int) oper)
     {
         case O_BRACKET:
         case C_BRACKET:
-        {
             pop_from_stack(stack);
-        }
             break;
         case SUM:
-        {
-            strcat(str, "+");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("+", str, stack);
             break;
-        }
         case SUBSTRACT:
-        {
-            strcat(str, "-");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("-", str, stack);
             break;
-        }
         case MULTIPLY:
-        {
-            strcat(str, "*");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("*", str, stack);
             break;
-        }
         case DIVISION:
-        {
-            strcat(str, "/");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("/", str, stack);
             break;
-        }
         case POWER:
-        {
-            strcat(str, "^");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("^", str, stack);
             break;
-        }
         case SIN:
-        {
-            strcat(str, "sin");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("sin", str, stack);
             break;
-        }
         case COS:
-        {
-            strcat(str, "cos");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("cos", str, stack);
             break;
-        }
         case LOG:
-        {
-            strcat(str, "log");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("log", str, stack);
             break;
-        }
         case SQRT:
-        {
-            strcat(str, "sqrt");
-            pop_from_stack(stack);
-            strcat(str, " ");
+            pop_operation_to_string("sqrt", str, stack);
             break;
-        }
         default:
             break;
     }
 }
 
-int priority(int oper)
+int priority(stack_type oper)
 {
-    if (oper == O_BRACKET || oper == C_BRACKET)
-        return 0;
-    if (oper == SUM || oper == SUBSTRACT)
-        return 1;
-    if (oper == MULTIPLY || oper == DIVISION || oper == SIN || oper == COS || oper == LOG || oper == SQRT)
-        return 2;
-    if (oper == POWER)
-        return 3;
-    return 0;
+    switch ((int) oper) {
+        case O_BRACKET:
+        case C_BRACKET:
+            return 5;
+        case SUM:
+        case SUBSTRACT:
+            return 1;
+        case MULTIPLY:
+        case DIVISION:
+        case SIN:
+        case COS:
+        case LOG:
+        case SQRT:
+            return 2;
+        case POWER:
+            return 3;
+        default:
+            return 0;
+    }
 }
 
 char *get_RPN_from_str()
@@ -147,20 +129,16 @@ char *get_RPN_from_str()
                     push_to_stack(&stake, oper);
                 else
                 {
-                    int previous = (int) *get_head(&stake);
+                    stack_type previous = *get_head(&stake);
 
-                    if (priority(previous) >= priority((int)oper))
-                    {
+                    if ((priority(previous) >= priority(oper)) && (previous != O_BRACKET))
                         print_operations(previous, str_rpn, &stake);
-                        push_to_stack(&stake, (int)oper);
-                    }
-                    else
-                        print_operations(previous, str_rpn, &stake);
+                    push_to_stack(&stake, oper);
                 }
             }
             else
             {
-                while (get_head(&stake) != O_BRACKET && stake.length >= 0)
+                while (*get_head(&stake) != O_BRACKET && stake.length >= 0)
                     print_operations(*get_head(&stake), str_rpn, &stake);
                 pop_from_stack(&stake);
             }

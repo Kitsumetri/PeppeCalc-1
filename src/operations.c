@@ -118,7 +118,10 @@ void do_operation(char *token, Stack *stake) {
     }
 }
 
-stack_type calculate_result_with_rpn(char *str) {
+stack_type calculate_result_with_rpn(const char *orig_str) {
+    char *str = (char*) calloc(strlen(orig_str), sizeof(char));
+    strncpy(str, orig_str, strlen(orig_str));
+
     Stack stake = make_stack();
     char *end_ptr = NULL;
     char *token = strtok(str, " ,\n");
@@ -129,5 +132,6 @@ stack_type calculate_result_with_rpn(char *str) {
             do_operation(token, &stake);
         token = strtok(NULL, " ,\n");
     }
+    free(str);
     return *get_head(&stake);
 }
