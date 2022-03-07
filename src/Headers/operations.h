@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include "stack.h"
 
-typedef enum {
+typedef enum
+{
     O_BRACKET, //0
     C_BRACKET, //1
     SUM, //2
@@ -16,7 +17,7 @@ typedef enum {
     LOG, //9
     SQRT, //10
     ERROR
-} OPERATIONS;
+}OPERATIONS;
 
 OPERATIONS get_operation_from_string(char *str);
 stack_type calculate_result_with_rpn(const char *orig_str);

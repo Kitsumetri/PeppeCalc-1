@@ -1,23 +1,24 @@
-#include "get_str.h"
-#include "operations.h"
-#include "stack.h"
+#include "../Headers/get_str.h"
+#include "../Headers/operations.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 const int LIMIT_SIZE = 1000;
 
-char *get_string_from_input() {
+char *get_string_from_input()
+{
     char *input_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
     fgets(input_str, LIMIT_SIZE, stdin);
     return input_str;
 }
 
-char *get_new_str() {
+char *get_new_str()
+{
     const char keys[] = "()+-*^/";
     char *input_str = get_string_from_input();
     char *new_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
-    int i = 0; int j = 0;
+    int i = 0, j = 0;
     bool unar_minus;
     while (i < strlen(input_str))
     {
@@ -38,7 +39,8 @@ char *get_new_str() {
     return new_str;
 }
 
-void pop_operation_to_string(char *oper, char *str, Stack *stack) {
+void pop_operation_to_string(char *oper, char *str, Stack *stack)
+{
     strcat(str, oper);
     pop_from_stack(stack);
     strcat(str, " ");

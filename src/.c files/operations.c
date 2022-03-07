@@ -1,5 +1,4 @@
-#include "operations.h"
-#include "stack.h"
+#include "../Headers/operations.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -18,7 +17,8 @@
 #define strtost(op, str) strtol(op, ptr)
 #endif
 
-OPERATIONS get_operation_from_string(char *str) {
+OPERATIONS get_operation_from_string(char *str)
+{
     if eq(str, "+")
         return SUM;
     if eq(str, "-")
@@ -44,8 +44,10 @@ OPERATIONS get_operation_from_string(char *str) {
     return ERROR;
 }
 
-stack_type apply_operation1(OPERATIONS oper, stack_type v) {
-    switch (oper) {
+stack_type apply_operation1(OPERATIONS oper, stack_type v)
+{
+    switch (oper)
+    {
         case SIN:
             return sin(v);
         case COS:
@@ -59,9 +61,11 @@ stack_type apply_operation1(OPERATIONS oper, stack_type v) {
     }
 }
 
-stack_type apply_operation2(OPERATIONS oper, stack_type v1, stack_type v2) {
+stack_type apply_operation2(OPERATIONS oper, stack_type v1, stack_type v2)
+{
     stack_type t_v;
-    switch (oper) {
+    switch (oper)
+    {
         case SUM:
             return v1+v2;
         case SUBSTRACT:
@@ -80,7 +84,8 @@ stack_type apply_operation2(OPERATIONS oper, stack_type v1, stack_type v2) {
     }
 }
 
-bool check_string_is_digit(char *str) {
+bool check_string_is_digit(char *str)
+{
     if ((str[0] == '-') && (strlen(str) == 1))
         return false;
     for (int i = 0; i < strlen(str); ++i)
@@ -89,7 +94,8 @@ bool check_string_is_digit(char *str) {
     return true;
 }
 
-void do_operation(char *token, Stack *stake) {
+void do_operation(char *token, Stack *stake)
+{
     stack_type value_1, value_2;
     OPERATIONS oper = get_operation_from_string(token);
     switch (oper) {
@@ -118,14 +124,16 @@ void do_operation(char *token, Stack *stake) {
     }
 }
 
-stack_type calculate_result_with_rpn(const char *orig_str) {
+stack_type calculate_result_with_rpn(const char *orig_str)
+{
     char *str = (char*) calloc(strlen(orig_str), sizeof(char));
     strncpy(str, orig_str, strlen(orig_str));
 
     Stack stake = make_stack();
     char *end_ptr = NULL;
     char *token = strtok(str, " ,\n");
-    while (token != NULL) {
+    while (token != NULL)
+    {
         if (check_string_is_digit(token))
             push_to_stack(&stake, (stack_type) strtost(token, &end_ptr));
         else

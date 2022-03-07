@@ -1,10 +1,11 @@
 #pragma once
 
 #define STACK_TYPE_IS_LONG_DOUBLE
-//#define STACK_TYPE_IS_INT
 
 typedef long double stack_type;
-typedef struct {
+
+typedef struct
+{
     stack_type *elems;
     int length;
 } Stack;
