@@ -35,6 +35,7 @@ char *get_new_str()
                 new_str[j++] = ' ';
         i++;
     }
+    printf("%s", new_str);
     free(input_str);
     return new_str;
 }
@@ -120,7 +121,7 @@ char *get_RPN_from_str()
 
     while (token != NULL)
     {
-        if (check_string_is_digit(token))
+        if (check_string_is_digit(token) || strchr(token, 'i'))
         {
             strcat(str_rpn, token);
             strcat(str_rpn, " ");
