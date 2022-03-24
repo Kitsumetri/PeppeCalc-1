@@ -12,6 +12,7 @@
 #define sin(x) sinl(x)
 #define cos(x) cosl(x)
 #define log(x) logl(x)
+#define pow(x) powl(x)
 #define sqrt(x) sqrtl(x)
 #elif STACK_TYPE_IS_INT
 #define strtost(op, str) strtol(op, ptr)
@@ -27,8 +28,6 @@ OPERATIONS get_operation_from_string(char *str)
         return MULTIPLY;
     if eq(str, "/")
         return DIVISION;
-    if eq(str, "^")
-        return POWER;
     if eq(str, "(")
         return O_BRACKET;
     if eq(str, ")")
@@ -41,6 +40,8 @@ OPERATIONS get_operation_from_string(char *str)
         return LOG;
     if eq(str, "sqrt")
         return SQRT;
+    if eq(str, "pow")
+        return POWER;
     return ERROR;
 }
 
@@ -75,10 +76,7 @@ stack_type apply_operation2(OPERATIONS oper, stack_type v1, stack_type v2)
         case DIVISION:
             return v1/v2;
         case POWER:
-            t_v = 1;
-            for (int i = 0; i < v2; i++)
-                t_v *= v1;
-            return t_v;
+            return powl(v1,v2);
         default:
             return 0;
     }
@@ -98,7 +96,8 @@ void do_operation(char *token, Stack *stake)
 {
     stack_type value_1, value_2;
     OPERATIONS oper = get_operation_from_string(token);
-    switch (oper) {
+    switch (oper)
+    {
         case SUM:
         case SUBSTRACT:
         case MULTIPLY:

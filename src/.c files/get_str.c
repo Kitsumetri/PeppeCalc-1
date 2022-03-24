@@ -15,7 +15,7 @@ char *get_string_from_input()
 
 char *get_new_str()
 {
-    const char keys[] = "()+-*^/";
+    const char keys[] = "()+-*/,";
     char *input_str = get_string_from_input();
     char *new_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
     int i = 0, j = 0;
@@ -23,7 +23,8 @@ char *get_new_str()
     while (i < strlen(input_str))
     {
         unar_minus = false;
-        new_str[j++] = input_str[i];
+        if (input_str[i] != ',')
+            new_str[j++] = input_str[i];
         if (input_str[i] == '-')
             if ((i == 0)
                 || (strchr(keys, input_str[i-1]))
@@ -35,7 +36,7 @@ char *get_new_str()
                 new_str[j++] = ' ';
         i++;
     }
-    printf("%s", new_str);
+    printf("%s\n", new_str);
     free(input_str);
     return new_str;
 }
@@ -68,7 +69,7 @@ void print_operations(stack_type oper, char *str, Stack *stack)
             pop_operation_to_string("/", str, stack);
             break;
         case POWER:
-            pop_operation_to_string("^", str, stack);
+            pop_operation_to_string("pow", str, stack);
             break;
         case SIN:
             pop_operation_to_string("sin", str, stack);
@@ -99,11 +100,11 @@ int priority(stack_type oper)
             return 1;
         case MULTIPLY:
         case DIVISION:
+            return 2;
         case SIN:
         case COS:
         case LOG:
         case SQRT:
-            return 2;
         case POWER:
             return 3;
         default:
@@ -121,7 +122,7 @@ char *get_RPN_from_str()
 
     while (token != NULL)
     {
-        if (check_string_is_digit(token) || strchr(token, 'i'))
+        if (check_string_is_digit(token) || (strchr(token, 'i') && (strcmp(token, "sin") != 0)))
         {
             strcat(str_rpn, token);
             strcat(str_rpn, " ");
