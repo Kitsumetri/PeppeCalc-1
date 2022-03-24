@@ -1,8 +1,11 @@
 #pragma once
 
-#define STACK_TYPE_IS_LONG_DOUBLE
+#include "complex.h"
 
-typedef long double stack_type;
+//#define STACK_TYPE_IS_LONG_DOUBLE
+#define STACK_TYPE_IS_COMPLEX
+
+typedef long double complex stack_type;
 
 typedef struct
 {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <string.h>
 #include "stack.h"
 
 typedef enum
@@ -16,6 +17,16 @@ typedef enum
     COS, //8
     LOG, //9
     SQRT, //10
+    MAG,
+    PHASE,
+    ABS,
+    IMAG,
+    REAL,
+    EXP,
+    // Constants
+    COMPLEX,
+    PI,
+    E,
     ERROR
 }OPERATIONS;
 
