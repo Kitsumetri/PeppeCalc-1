@@ -4,6 +4,8 @@ project(Calc C)
 set(CMAKE_C_STANDARD 17)
 add_compile_options(-Wall -lm)
 
-add_executable(Calc "src/.c files/main.c" "src/.c files/stack.c" src/Headers/stack.h "src/.c files/operations.c" src/Headers/operations.h "src/.c files/get_str.c" src/Headers/get_str.h)
+include_directories(src/Headers)
+
+add_executable(Calc "src/Search/main.c" "src/Search/stack.c" src/Headers/stack.h "src/Search/operations.c" src/Headers/operations.h "src/Search/get_str.c" src/Headers/get_str.h)
 
 target_link_libraries(Calc m)

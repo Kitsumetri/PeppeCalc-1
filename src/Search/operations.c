@@ -1,4 +1,4 @@
-#include "../Headers/operations.h"
+#include "operations.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
