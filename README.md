@@ -13,10 +13,13 @@ The reverse polish notation of prefix type is used in this calculator.
 # Feature list:
 
 1) +, -, /, *, ().
-2) sin(x), cos(x), log(x), sqrt(x), power(x, y).
+2) sin(x), cos(x), log(x), sqrt(x), power(x, y), abs(x).
 3) Negative numbers.
-4) constants: Pi, e.
+4) constants: Pi, e, i.
 5) Float numbers (use . for them).
-6) Complex numbers (including complex sin, cos, sqrt and power).
+6) Complex numbers + specialize functions:
+   - Magnitude - mag(z), Phase - phase(z);
+   - Complex sin(z), cos(z), exp(z), sqrt(z), pow(z, x), log(z);
+   - Image - imag(z), Real - real(z).
 
 Hope you enjoy using our console PeppeCalc!
