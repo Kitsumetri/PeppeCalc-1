@@ -14,7 +14,7 @@ The reverse polish notation of prefix type is used in this calculator.
 ## Feature list:
 
 1) +, -, /, *, (), ^.
-2) sin(x), cos(x), log(x), sqrt(x), power(x, y), abs(x).
+2) sin(x), cos(x), log(x), sqrt(x), (x)^(y), abs(x).
 3) Negative numbers.
 4) Constants: PI, e, j(imaginary unit).
 5) Float numbers (use . for them).
