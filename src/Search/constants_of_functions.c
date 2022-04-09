@@ -9,7 +9,7 @@ const char* funcs[] = {
         "-",
         "*",
         "/",
-        "pow",
+        "^",
         "sin",
         "cos",
         "log",
@@ -26,7 +26,8 @@ const char* funcs[] = {
         "\0"
 };
 
-bool is_variable(char *token) {
+bool is_variable(char *token)
+{
     for (int i = 0; i < ERROR; ++i)
         if (strcmp(token, funcs[i]) == 0)
             return false;

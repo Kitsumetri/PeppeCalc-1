@@ -32,7 +32,7 @@ VarDef get_variable_from_input() {
 
 char *get_new_str(char *input_str)
 {
-    const char keys[] = "()+-*/,";
+    const char keys[] = "()+-*/^";
     char *new_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
     int i = 0, j = 0;
     bool unar_minus;

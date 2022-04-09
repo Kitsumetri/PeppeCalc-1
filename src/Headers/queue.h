@@ -2,7 +2,8 @@
 
 #include "stack.h"
 
-typedef enum {
+typedef enum
+{
     NUMBER,
     OPERATION,
     VARIABLE,
@@ -22,7 +23,6 @@ typedef struct {
 Elem *create_elem(char *name, stack_type value, TypeOfElem type);
 Queue *create_queue();
 void *add_to_queue(Queue *queue, Elem *elem);
-void pop_from_queue(Queue *queue, Elem *elem);
 Elem* find_variable_in_queue(Queue *queue, char *name);
 void apply_variable(Elem *elem, stack_type value);
 void delete_queue(Queue **queue);

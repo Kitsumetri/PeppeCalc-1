@@ -31,15 +31,18 @@ stack_type comp_log(stack_type x);
 #define cos(x) (exp(I*x) + exp(-I*x)) / 2 //cacosl(x)
 #endif
 
-stack_type mag(stack_type x) {
+stack_type mag(stack_type x)
+{
     return sqrt(pow(creal(x), 2) + pow(cimag(x), 2));
 }
 
-stack_type phase(stack_type x) {
+stack_type phase(stack_type x)
+{
     return atan2(creal(x), cimag(x));
 }
 
-stack_type comp_log(stack_type x) {
+stack_type comp_log(stack_type x)
+{
     return logl(mag(x)) + I*phase(x);
 }
 
@@ -51,8 +54,10 @@ OPERATIONS get_operation_from_string(char *str)
     return ERROR;
 }
 
-stack_type get_constant(OPERATIONS oper) {
-    switch (oper) {
+stack_type get_constant(OPERATIONS oper)
+{
+    switch (oper)
+    {
         case COMPLEX:
             return I;
         case PI:
@@ -162,7 +167,8 @@ void do_operation(Stack *stake, OPERATIONS oper)
     }
 }
 
-Queue *get_queue_from_rpn(const char *orig_str) {
+Queue *get_queue_from_rpn(const char *orig_str)
+{
     char *str = (char*) calloc(strlen(orig_str), sizeof(char));
     strncpy(str, orig_str, strlen(orig_str));
 
@@ -171,19 +177,22 @@ Queue *get_queue_from_rpn(const char *orig_str) {
     char *token = strtok(str, " ,\n");
     while ((token != NULL) && (strchr(orig_str, token[0])))
     {
-        if (check_string_is_digit(token)) {
+        if (check_string_is_digit(token))
+        {
             Elem *elem = create_elem(token,
                                      (stack_type) strtost(token, &end_ptr),
                                      NUMBER);
             add_to_queue(queue, elem);
         }
-        else if (is_variable(token)) {
+        else if (is_variable(token))
+        {
             Elem *elem;
             extern Queue *var_queue;
 
-            if (var_is_exists(token)) {
+            if (var_is_exists(token))
                 elem = find_variable_in_queue(var_queue, token);
-            } else {
+            else
+            {
                 elem = create_elem(token,
                                    0,
                                    VARIABLE);
@@ -191,7 +200,8 @@ Queue *get_queue_from_rpn(const char *orig_str) {
             }
             add_to_queue(queue, elem);
         }
-        else {
+        else
+        {
             Elem *elem = create_elem(token,
                                      get_operation_from_string(token),
                                      OPERATION);
@@ -206,9 +216,11 @@ Queue *get_queue_from_rpn(const char *orig_str) {
 stack_type calculate_result_from_queue(Queue **queue)
 {
     Stack stake = make_stack();
-    for (int i = 0; i < (*queue)->size; ++i) {
+    for (int i = 0; i < (*queue)->size; ++i)
+    {
         Elem *elem = (*queue)->elems[i];
-        switch (elem->type) {
+        switch (elem->type)
+        {
             case NUMBER:
                 push_to_stack(&stake, elem->value);
                 break;

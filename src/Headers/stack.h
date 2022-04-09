@@ -7,8 +7,7 @@
 
 typedef long double complex stack_type;
 
-typedef struct
-{
+typedef struct {
     stack_type *elems;
     int length;
 } Stack;

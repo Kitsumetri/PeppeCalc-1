@@ -4,18 +4,12 @@
 #include "get_str.h"
 #include "operations.h"
 
-//define PRINT_RPN
+//#define PRINT_RPN
 
 Queue *var_queue;
 
-void print_all_variables()
+char *GetStringFromExpression(const char *strsrc)
 {
-    for (int i = 0; i < var_queue->size; ++i)
-        printf("%s ", var_queue->elems[i]->name);
-    printf("\n");
-}
-
-char *GetStringFromExpression(const char *strsrc) {
     char *str = malloc(strlen(strsrc) * sizeof(char));
     strcpy(str, strsrc);
     char *rpn_string = get_RPN_from_str(get_new_str(str));
@@ -25,15 +19,19 @@ char *GetStringFromExpression(const char *strsrc) {
     return rpn_string;
 }
 
-void wait_while_variables_will_empty(Queue *queue) {
-    while (queue_has_uninitialized_variables(queue)) {
+void wait_while_variables_will_empty(Queue *queue)
+{
+    int i = 1;
+    while (queue_has_uninitialized_variables(queue))
+    {
+        printf("Print %d variable:\n", i);
+        i++;
         const VarDef vardef = get_variable_from_input();
 
         char *rpn_string = GetStringFromExpression(vardef.def);
         Queue *var_q = get_queue_from_rpn(rpn_string);
         free(rpn_string);
 
-        print_all_variables();
         wait_while_variables_will_empty(var_q);
 
         Elem *var = find_variable_in_queue(var_queue, vardef.var);
@@ -46,6 +44,7 @@ int main()
     // Initialize Global Queue of Variables
     var_queue = create_queue();
 
+    printf("Print expression:\n");
     char *rpn_string = GetStringFromExpression(get_string_from_input());
     Queue *general_queue = get_queue_from_rpn(rpn_string);
     free(rpn_string);
@@ -60,7 +59,8 @@ int main()
         answer = cimag(answer)*I;
 
     // Printing
-    if (cimag(answer)) {
+    if (cimag(answer))
+    {
         if (cimag(answer) == -1)
             printf("Answer: %2.4g + -i\n", creal(answer));
         else
