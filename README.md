@@ -7,22 +7,26 @@ The reverse polish notation of prefix type is used in this calculator.
 
 2) Press Enter.
 
-3) Get the expression in the RPN (Reverse Polish Notation) and the answer.
+3) If you write an expression with variables the programm will ask you to determinate them.(example №2)
+
+4) Get the expression in the RPN (Reverse Polish Notation) and the answer.
 ---
 ## Feature list:
 
-1) +, -, /, *, ().
+1) +, -, /, *, (), ^.
 2) sin(x), cos(x), log(x), sqrt(x), power(x, y), abs(x).
 3) Negative numbers.
-4) constants: pi, e, i.
+4) constants: PI, e, j(imaginary unit).
 5) Float numbers (use . for them).
 6) Complex numbers + special functions:
    - Magnitude - mag(z), Phase - phase(z);
-   - Complex sin(z), cos(z), exp(z), sqrt(z), pow(z, z), log(z);
+   - Complex sin(z), cos(z), exp(z), sqrt(z), (z)^(z), log(z);
    - Image - imag(z), Real - real(z).
 ---
-## Example
-<img width="1299" alt="Снимок экрана 2022-04-09 в 16 50 52" src="https://user-images.githubusercontent.com/100523204/162577185-3c5153f2-736c-4f41-b34b-66d2896fa7ee.png">
+## Examples
+<img width="1144" alt="Снимок экрана 2022-04-10 в 01 40 24" src="https://user-images.githubusercontent.com/100523204/162593850-fdbe2a32-ce56-42e2-8e52-97bac19aeefb.png">
+
+<img width="648" alt="Снимок экрана 2022-04-10 в 01 48 36" src="https://user-images.githubusercontent.com/100523204/162594049-50fb5bf8-2776-4a5f-87c7-6c2e8e29b0ce.png">
 
 ---
 #### Hope you enjoy using our console PeppeCalc!
