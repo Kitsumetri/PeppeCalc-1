@@ -17,7 +17,7 @@ The reverse polish notation of prefix type is used in this calculator.
 3) Negative numbers.
 4) constants: Pi, e, i.
 5) Float numbers (use . for them).
-6) Complex numbers + specialize functions:
+6) Complex numbers + special functions:
    - Magnitude - mag(z), Phase - phase(z);
    - Complex sin(z), cos(z), exp(z), sqrt(z), pow(z, x), log(z);
    - Image - imag(z), Real - real(z).
