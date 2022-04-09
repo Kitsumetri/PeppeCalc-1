@@ -4,7 +4,9 @@
 #include "get_str.h"
 #include "operations.h"
 #include "constants_of_functions.h"
-#include "variable_operations.h"
+#include "queue.h"
+
+//#define PRINT_SPACES
 
 const int LIMIT_SIZE = 10000;
 
@@ -15,14 +17,13 @@ char *get_string_from_input()
     return input_str;
 }
 
-VarDef get_variable_from_input()
-{
+VarDef get_variable_from_input() {
     char *input = get_string_from_input();
-    char *token = strtok(input, " =");
+    char *token = strtok(input, " =\n");
     VarDef vardef;
     vardef.var = (char*) calloc(strlen(token), sizeof(char));
     strcpy(vardef.var, token);
-    token = strtok(NULL, " =");
+    token = strtok(NULL, "=\n");
     vardef.def = (char*) calloc(strlen(token), sizeof(char));
     strcpy(vardef.def, token);
     free(input);
@@ -42,7 +43,7 @@ char *get_new_str(char *input_str)
             new_str[j++] = input_str[i];
         if (input_str[i] == '-')
             if ((i == 0)
-                || (strchr(keys, input_str[i-1]))
+                || (strchr(keys, input_str[i-1]) && !strchr(")", input_str[i-1]))
                 || ((input_str[i-1] == ' ') && strchr(keys, input_str[i-2])))
                 unar_minus = true;
 
@@ -51,7 +52,9 @@ char *get_new_str(char *input_str)
                 new_str[j++] = ' ';
         i++;
     }
+#ifdef PRINT_SPACES
     printf("%s\n", new_str);
+#endif
     free(input_str);
     return new_str;
 }
@@ -94,6 +97,8 @@ int get_priority(stack_type oper)
         case ABS:
         case PHASE:
         case EXP:
+        case REAL:
+        case IMAG:
             return 3;
         case COMPLEX:
         case E:
@@ -104,8 +109,7 @@ int get_priority(stack_type oper)
     }
 }
 
-bool not_func(char *token)
-{
+bool not_func(char *token) {
     for (int i = 0; i < COMPLEX; ++i)
         if (strcmp(token, funcs[i]) == 0)
             return false;
@@ -114,7 +118,6 @@ bool not_func(char *token)
 
 char *get_RPN_from_str(char *expression)
 {
-    extern VarQueue *var_queue;
     char *token = strtok(expression, " \n");
 
     Stack stake = make_stack();
@@ -122,8 +125,6 @@ char *get_RPN_from_str(char *expression)
 
     while (token != NULL)
     {
-        if (not_func(token))
-            add_to_queue(var_queue, create_var(token, NULL));
         if (check_string_is_digit(token)
             || not_func(token))
         {

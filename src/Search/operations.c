@@ -5,7 +5,6 @@
 #include <math.h>
 #include "operations.h"
 #include "constants_of_functions.h"
-#include "variable_operations.h"
 
 #define eq(str, op) (strcmp(str, op) == 0)
 
@@ -32,20 +31,15 @@ stack_type comp_log(stack_type x);
 #define cos(x) (exp(I*x) + exp(-I*x)) / 2 //cacosl(x)
 #endif
 
-extern VarQueue *var_queue;
-
-stack_type mag(stack_type x)
-{
+stack_type mag(stack_type x) {
     return sqrt(pow(creal(x), 2) + pow(cimag(x), 2));
 }
 
-stack_type phase(stack_type x)
-{
+stack_type phase(stack_type x) {
     return atan2(creal(x), cimag(x));
 }
 
-stack_type comp_log(stack_type x)
-{
+stack_type comp_log(stack_type x) {
     return logl(mag(x)) + I*phase(x);
 }
 
@@ -57,10 +51,8 @@ OPERATIONS get_operation_from_string(char *str)
     return ERROR;
 }
 
-stack_type get_constant(OPERATIONS oper)
-{
-    switch (oper)
-    {
+stack_type get_constant(OPERATIONS oper) {
+    switch (oper) {
         case COMPLEX:
             return I;
         case PI:
@@ -129,10 +121,9 @@ bool check_string_is_digit(char *str)
     return true;
 }
 
-void do_operation(char *token, Stack *stake)
+void do_operation(Stack *stake, OPERATIONS oper)
 {
     stack_type value_1, value_2;
-    OPERATIONS oper = get_operation_from_string(token);
     switch (oper)
     {
         case SUM:
@@ -171,31 +162,63 @@ void do_operation(char *token, Stack *stake)
     }
 }
 
-stack_type calculate_result_with_rpn(const char *orig_str)
-{
+Queue *get_queue_from_rpn(const char *orig_str) {
     char *str = (char*) calloc(strlen(orig_str), sizeof(char));
     strncpy(str, orig_str, strlen(orig_str));
 
-    Stack stake = make_stack();
+    Queue *queue = create_queue();
     char *end_ptr = NULL;
     char *token = strtok(str, " ,\n");
-    while (token != NULL)
+    while ((token != NULL) && (strchr(orig_str, token[0])))
     {
-        if (check_string_is_digit(token))
-            push_to_stack(&stake, (stack_type) strtost(token, &end_ptr));
-        else if (is_variable(token))
-        {
-            if (find_elem_in_queue(var_queue, token) != NULL)
-            {
-                push_to_stack(&stake, (stack_type) 0);
-                Var *temp = create_var(token, get_head(&stake));
-                add_to_queue(var_queue, temp);
-            }
+        if (check_string_is_digit(token)) {
+            Elem *elem = create_elem(token,
+                                     (stack_type) strtost(token, &end_ptr),
+                                     NUMBER);
+            add_to_queue(queue, elem);
         }
-        else
-            do_operation(token, &stake);
+        else if (is_variable(token)) {
+            Elem *elem;
+            extern Queue *var_queue;
+
+            if (var_is_exists(token)) {
+                elem = find_variable_in_queue(var_queue, token);
+            } else {
+                elem = create_elem(token,
+                                   0,
+                                   VARIABLE);
+                add_to_queue(var_queue, elem);
+            }
+            add_to_queue(queue, elem);
+        }
+        else {
+            Elem *elem = create_elem(token,
+                                     get_operation_from_string(token),
+                                     OPERATION);
+            add_to_queue(queue, elem);
+        }
         token = strtok(NULL, " ,\n");
     }
     free(str);
+    return queue;
+}
+
+stack_type calculate_result_from_queue(Queue **queue)
+{
+    Stack stake = make_stack();
+    for (int i = 0; i < (*queue)->size; ++i) {
+        Elem *elem = (*queue)->elems[i];
+        switch (elem->type) {
+            case NUMBER:
+                push_to_stack(&stake, elem->value);
+                break;
+            case OPERATION:
+                do_operation(&stake, elem->value);
+                break;
+            default:
+                printf("Something went wrong!\n");
+        }
+    }
+    delete_queue(queue);
     return *get_head(&stake);
 }
