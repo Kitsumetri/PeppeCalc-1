@@ -9,7 +9,7 @@ The reverse polish notation of prefix type is used in this calculator.
 
 3) If you write an expression with variables the programm will ask you to determinate them.(example №2)
 
-4) Get the expression in the RPN (Reverse Polish Notation) and the answer.
+4) Get the answer.
 ---
 ## Feature list:
 
