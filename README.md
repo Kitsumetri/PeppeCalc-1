@@ -22,5 +22,7 @@ The reverse polish notation of prefix type is used in this calculator.
    - Complex sin(z), cos(z), exp(z), sqrt(z), pow(z, z), log(z);
    - Image - imag(z), Real - real(z).
 
-Hope you enjoy using our console PeppeCalc!
+# Example
 <img width="1299" alt="Снимок экрана 2022-04-09 в 16 50 52" src="https://user-images.githubusercontent.com/100523204/162577185-3c5153f2-736c-4f41-b34b-66d2896fa7ee.png">
+
+# Hope you enjoy using our console PeppeCalc!
