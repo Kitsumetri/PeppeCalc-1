@@ -1,6 +1,7 @@
 #pragma once
 
-typedef struct {
+typedef struct
+{
     char *var;
     char *def;
 } VarDef;

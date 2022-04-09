@@ -23,34 +23,34 @@ VarQueue *create_queue()
     return queue;
 }
 
-void *add_to_queue(VarQueue **queue, Var elem)
+void *add_to_queue(VarQueue *queue, Var *elem)
 {
-    if (elem.ptr == NULL)
-        (*queue)->not_initialized += 1;
-    int new_size = (*queue)->size + 1;
+    if (elem->ptr == NULL)
+        queue->not_initialized += 1;
+    int new_size = queue->size + 1;
     Var *vars = (Var*) calloc(new_size, sizeof(Var));
-    for (int i = 0; i < (*queue)->size; ++i)
-        vars[i] = (*queue)->vars[i];
-    vars[new_size-1] = elem;
-    free((*queue)->vars);
-    (*queue)->vars = vars;
+    for (int i = 0; i < queue->size; ++i)
+        vars[i] = queue->vars[i];
+    vars[new_size-1] = *elem;
+    free(queue->vars);
+    queue->vars = vars;
 }
 
-void pop_from_queue(VarQueue **queue, Var *elem)
+void pop_from_queue(VarQueue *queue, Var *elem)
 {
     if (elem == NULL)
         return;
     int i;
-    for (i = 0; i < (*queue)->size; ++i)
-        if (&(*queue)->vars[i] == elem)
+    for (i = 0; i < queue->size; ++i)
+        if (&queue->vars[i] == elem)
             break;
     VarQueue *new_queue = create_queue();
-    for (int j = 0; j < (*queue)->size; ++j)
+    for (int j = 0; j < queue->size; ++j)
         if (i != j)
-            add_to_queue(&new_queue, (*queue)->vars[j]);
-    free((*queue)->vars);
-    free((*queue));
-    (*queue) = new_queue;
+            add_to_queue(new_queue, &queue->vars[j]);
+    free(queue->vars);
+    free(queue);
+    queue = new_queue;
 }
 
 Var* find_elem_in_queue(VarQueue *queue, char *name)

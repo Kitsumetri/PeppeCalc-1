@@ -17,12 +17,12 @@ typedef enum
     COS, //8
     LOG, //9
     SQRT, //10
-    MAG,
-    PHASE,
-    ABS,
-    IMAG,
-    REAL,
-    EXP,
+    MAG, //11
+    PHASE, //12
+    ABS, //13
+    IMAG, //14
+    REAL, //15
+    EXP, //16
     // Constants
     COMPLEX,
     PI,

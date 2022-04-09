@@ -1,10 +1,12 @@
-#include "get_str.h"
-#include "operations.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "get_str.h"
+#include "operations.h"
+#include "constants_of_functions.h"
+#include "variable_operations.h"
 
-const int LIMIT_SIZE = 1000;
+const int LIMIT_SIZE = 10000;
 
 char *get_string_from_input()
 {
@@ -13,10 +15,23 @@ char *get_string_from_input()
     return input_str;
 }
 
-char *get_new_str()
+VarDef get_variable_from_input()
+{
+    char *input = get_string_from_input();
+    char *token = strtok(input, " =");
+    VarDef vardef;
+    vardef.var = (char*) calloc(strlen(token), sizeof(char));
+    strcpy(vardef.var, token);
+    token = strtok(NULL, " =");
+    vardef.def = (char*) calloc(strlen(token), sizeof(char));
+    strcpy(vardef.def, token);
+    free(input);
+    return vardef;
+}
+
+char *get_new_str(char *input_str)
 {
     const char keys[] = "()+-*/,";
-    char *input_str = get_string_from_input();
     char *new_str = (char*) calloc(LIMIT_SIZE, sizeof(char));
     int i = 0, j = 0;
     bool unar_minus;
@@ -41,7 +56,7 @@ char *get_new_str()
     return new_str;
 }
 
-void pop_operation_to_string(char *oper, char *str, Stack *stack)
+void pop_operation_to_string(const char *oper, char *str, Stack *stack)
 {
     strcat(str, oper);
     pop_from_stack(stack);
@@ -50,45 +65,14 @@ void pop_operation_to_string(char *oper, char *str, Stack *stack)
 
 void print_operations(stack_type oper, char *str, Stack *stack)
 {
-    switch ((int) oper)
-    {
-        case O_BRACKET:
-        case C_BRACKET:
-            pop_from_stack(stack);
-            break;
-        case SUM:
-            pop_operation_to_string("+", str, stack);
-            break;
-        case SUBSTRACT:
-            pop_operation_to_string("-", str, stack);
-            break;
-        case MULTIPLY:
-            pop_operation_to_string("*", str, stack);
-            break;
-        case DIVISION:
-            pop_operation_to_string("/", str, stack);
-            break;
-        case POWER:
-            pop_operation_to_string("pow", str, stack);
-            break;
-        case SIN:
-            pop_operation_to_string("sin", str, stack);
-            break;
-        case COS:
-            pop_operation_to_string("cos", str, stack);
-            break;
-        case LOG:
-            pop_operation_to_string("log", str, stack);
-            break;
-        case SQRT:
-            pop_operation_to_string("sqrt", str, stack);
-            break;
-        default:
-            break;
-    }
+    funcs[(int) creal(oper)];
+    if (oper == O_BRACKET || oper == C_BRACKET)
+        pop_from_stack(stack);
+    else
+        pop_operation_to_string(funcs[(int) creal(oper)], str, stack);
 }
 
-int priority(stack_type oper)
+int get_priority(stack_type oper)
 {
     switch ((int) oper)
     {
@@ -106,15 +90,31 @@ int priority(stack_type oper)
         case LOG:
         case SQRT:
         case POWER:
+        case MAG:
+        case ABS:
+        case PHASE:
+        case EXP:
             return 3;
+        case COMPLEX:
+        case E:
+        case PI:
+            return 6;
         default:
             return 0;
     }
 }
 
-char *get_RPN_from_str()
+bool not_func(char *token)
 {
-    char *expression = get_new_str();
+    for (int i = 0; i < COMPLEX; ++i)
+        if (strcmp(token, funcs[i]) == 0)
+            return false;
+    return true;
+}
+
+char *get_RPN_from_str(char *expression)
+{
+    extern VarQueue *var_queue;
     char *token = strtok(expression, " \n");
 
     Stack stake = make_stack();
@@ -122,7 +122,10 @@ char *get_RPN_from_str()
 
     while (token != NULL)
     {
-        if (check_string_is_digit(token) || (strchr(token, 'i') && (strcmp(token, "sin") != 0)))
+        if (not_func(token))
+            add_to_queue(var_queue, create_var(token, NULL));
+        if (check_string_is_digit(token)
+            || not_func(token))
         {
             strcat(str_rpn, token);
             strcat(str_rpn, " ");
@@ -139,7 +142,7 @@ char *get_RPN_from_str()
                 {
                     stack_type previous = *get_head(&stake);
 
-                    if ((priority(previous) >= priority(oper)) && (previous != O_BRACKET))
+                    if ((get_priority(previous) >= get_priority(oper)) && (previous != O_BRACKET))
                         print_operations(previous, str_rpn, &stake);
                     push_to_stack(&stake, oper);
                 }
