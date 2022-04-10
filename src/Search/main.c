@@ -21,11 +21,9 @@ char *GetStringFromExpression(const char *strsrc)
 
 void wait_while_variables_will_empty(Queue *queue)
 {
-    int i = 1;
     while (queue_has_uninitialized_variables(queue))
     {
-        printf("Print %d variable:\n", i);
-        i++;
+        printf("Print variable for expression:\n");
         const VarDef vardef = get_variable_from_input();
 
         char *rpn_string = GetStringFromExpression(vardef.def);
