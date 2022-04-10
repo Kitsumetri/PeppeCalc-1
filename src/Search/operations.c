@@ -126,7 +126,7 @@ bool check_string_is_digit(char *str)
     || str[1] == 'e' || (str[1] == 'P' && str[2] == 'I')))  //changed
         return false;
     for (int i = 0; i < strlen(str); ++i)
-        if (!isdigit(str[i]) && (str[i] != '.') && (str[0] != '-') && (str[1] != 'e'))
+        if (!isdigit(str[i]) && (str[i] != '.') && (str[0] != '-'))
             return false;
     return true;
 }
