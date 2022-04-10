@@ -103,6 +103,7 @@ int get_priority(stack_type oper)
         case COMPLEX:
         case E:
         case PI:
+        case m_E:
             return 6;
         default:
             return 0;

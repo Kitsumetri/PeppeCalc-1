@@ -28,6 +28,8 @@ typedef enum
     COMPLEX,
     PI,
     E,
+    m_E,
+    m_PI,
     ERROR
 }OPERATIONS;
 

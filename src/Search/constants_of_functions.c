@@ -23,6 +23,8 @@ const char* funcs[] = {
         "j",
         "PI",
         "e",
+        "-e",
+        "-PI",
         "\0"
 };
 
