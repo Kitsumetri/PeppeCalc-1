@@ -23,7 +23,7 @@ void wait_while_variables_will_empty(Queue *queue)
 {
     while (queue_has_uninitialized_variables(queue))
     {
-        printf("Print variable for expression:\n");
+        printf("Enter variable for expression:\n");
         const VarDef vardef = get_variable_from_input();
 
         char *rpn_string = GetStringFromExpression(vardef.def);
@@ -33,6 +33,11 @@ void wait_while_variables_will_empty(Queue *queue)
         wait_while_variables_will_empty(var_q);
 
         Elem *var = find_variable_in_queue(var_queue, vardef.var);
+        if (var == NULL)
+        {
+            var = create_elem(vardef.var, 0, VARIABLE);
+            add_to_queue(var_queue, var);
+        }
         apply_variable(var, calculate_result_from_queue(&var_q));
     }
 }
@@ -42,7 +47,7 @@ int main()
     // Initialize Global Queue of Variables
     var_queue = create_queue();
 
-    printf("Print expression:\n");
+    printf("Enter expression:\n");
     char *rpn_string = GetStringFromExpression(get_string_from_input());
     Queue *general_queue = get_queue_from_rpn(rpn_string);
     free(rpn_string);

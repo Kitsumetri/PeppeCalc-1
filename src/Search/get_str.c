@@ -17,7 +17,8 @@ char *get_string_from_input()
     return input_str;
 }
 
-VarDef get_variable_from_input() {
+VarDef get_variable_from_input()
+{
     char *input = get_string_from_input();
     char *token = strtok(input, " =\n");
     VarDef vardef;
@@ -104,13 +105,16 @@ int get_priority(stack_type oper)
         case E:
         case PI:
         case m_E:
+        case m_COMPLEX:
+        case m_PI:
             return 6;
         default:
             return 0;
     }
 }
 
-bool not_func(char *token) {
+bool not_func(char *token)
+{
     for (int i = 0; i < COMPLEX; ++i)
         if (strcmp(token, funcs[i]) == 0)
             return false;

@@ -2,7 +2,8 @@
 #include "operations.h"
 #include "constants_of_functions.h"
 
-const char* funcs[] = {
+const char* funcs[] =
+        {
         "(",
         ")",
         "+",
@@ -20,11 +21,12 @@ const char* funcs[] = {
         "imag",
         "real",
         "exp",
-        "j",
+        "i",
         "PI",
         "e",
         "-e",
         "-PI",
+        "-i",
         "\0"
 };
 

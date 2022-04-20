@@ -60,14 +60,16 @@ stack_type get_constant(OPERATIONS oper)
     {
         case COMPLEX:
             return I;
+        case m_COMPLEX:
+            return -1 * I;
         case PI:
             return M_PI;
         case E:
             return M_E;
         case m_E:
-            return -1 *M_E;
+            return -1 * M_E;
         case m_PI:
-            return -1 *M_PI;
+            return -1 * M_PI;
         default:
             return 0;
     }
@@ -123,7 +125,7 @@ stack_type apply_operation2(OPERATIONS oper, stack_type v1, stack_type v2)
 bool check_string_is_digit(char *str)
 {
     if ((str[0] == '-') && ((strlen(str) == 1)
-    || str[1] == 'e' || (str[1] == 'P' && str[2] == 'I')))  //changed
+    || str[1] == 'e' || (str[1] == 'P' && str[2] == 'I') || str[1] == 'i'))  //changed
         return false;
     for (int i = 0; i < strlen(str); ++i)
         if (!isdigit(str[i]) && (str[i] != '.') && (str[0] != '-'))
@@ -166,6 +168,7 @@ void do_operation(Stack *stake, OPERATIONS oper)
         case E:
         case m_E:
         case m_PI:
+        case m_COMPLEX:
             push_to_stack(stake, get_constant(oper));
             break;
         default:

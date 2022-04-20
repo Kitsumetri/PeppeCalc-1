@@ -30,6 +30,7 @@ typedef enum
     E,
     m_E,
     m_PI,
+    m_COMPLEX,
     ERROR
 }OPERATIONS;
 
